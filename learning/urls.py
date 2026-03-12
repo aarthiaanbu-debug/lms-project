@@ -16,7 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from lms_admin.views import home, enroll_course
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # homepage
+    path('', home, name='home'),
+
+    # enroll
+    path('enroll/<int:course_id>/', enroll_course, name='enroll_course'),
 ]
+
+# media images serve
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
