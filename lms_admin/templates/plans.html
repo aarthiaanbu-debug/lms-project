@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Plans</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f4f4;
+}
+
+.container{
+display:flex;
+justify-content:center;
+gap:30px;
+margin-top:100px;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:10px;
+width:200px;
+text-align:center;
+box-shadow:0 0 10px grey;
+}
+
+button{
+background:#27ae60;
+color:white;
+padding:10px;
+border:none;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1 style="text-align:center">Choose Plan</h1>
+
+<div class="container">
+
+{% for plan in plans %}
+
+<div class="card">
+
+<h2>{{plan.name}}</h2>
+
+<h3>₹{{plan.price}}</h3>
+
+<p>{{plan.duration_days}} Days Access</p>
+
+<a href="/subscribe/{{plan.id}}">
+
+<button>Subscribe</button>
+
+</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>

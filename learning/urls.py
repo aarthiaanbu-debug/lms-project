@@ -19,15 +19,19 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from lms_admin.views import home, enroll_course
+from lms_admin import views
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
 
-    # homepage
-    path('', home, name='home'),
+    path('', views.home, name='home'),
 
-    # enroll
-    path('enroll/<int:course_id>/', enroll_course, name='enroll_course'),
+    path('courses/', views.course_list, name='courses'),
+
+    path('course/<int:id>/', views.course_detail, name='course_detail'),
+    path("enroll/<int:course_id>/",views.enroll,name="enroll"),
+
 ]
 
 # media images serve
