@@ -1,23 +1,10 @@
 from pydantic import BaseModel
 
 
-class Course(BaseModel):
-    id: int
-    title: str
-    description: str
-
-    class Config:
-        from_attributes = True
-
-
-class Lesson(BaseModel):
-    id: int
-    title: str
-    content: str
-    video_url: str
-
-    class Config:
-        from_attributes = True
+class ProgressRequest(BaseModel):
+    enrollment_id: int
+    completed_lessons: int
+    progress_percent: float
 
 
 class SubscribeRequest(BaseModel):
@@ -25,7 +12,10 @@ class SubscribeRequest(BaseModel):
     plan_id: int
 
 
-class ProgressRequest(BaseModel):
-    enrollment_id: int
-    completed_lessons: int
-    progress_percent: int
+class NotificationCreate(BaseModel):
+    message: str
+
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str

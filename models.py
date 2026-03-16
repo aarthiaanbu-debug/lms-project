@@ -1,30 +1,32 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float
+from datetime import datetime
 from database import Base
-from sqlalchemy import Column, Integer, DateTime
-from database import Base
-import datetime
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, Float, Boolean, DateTime
-from database import Base
-import datetime
+
+
+class User(Base):
+    __tablename__ = "auth_user"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String)
+    email = Column(String)
+    password = Column(String)
 
 
 class Course(Base):
     __tablename__ = "lms_admin_course"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(255))
-    description = Column(Text)
+    title = Column(String)
+    description = Column(String)
     is_premium = Column(Boolean)
-
 
 class Lesson(Base):
     __tablename__ = "lms_admin_lesson"
 
     id = Column(Integer, primary_key=True, index=True)
-    course_id = Column(Integer, ForeignKey("lms_admin_course.id"))
-    title = Column(String(255))
-    content = Column(Text)
-    video_url = Column(String(255))
+    title = Column(String)
+    content = Column(String)
+    course_id = Column(Integer)
 
 
 class Enrollment(Base):
@@ -33,7 +35,7 @@ class Enrollment(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer)
     course_id = Column(Integer)
-    enrolled_on = Column(DateTime, default=datetime.datetime.utcnow)
+    enrolled_on = Column(DateTime, default=datetime.utcnow)
 
 
 class Progress(Base):
@@ -42,15 +44,14 @@ class Progress(Base):
     id = Column(Integer, primary_key=True, index=True)
     enrollment_id = Column(Integer)
     completed_lessons = Column(Integer)
-    progress_percent = Column(Integer)
+    progress_percent = Column(Float)
 
-    from sqlalchemy import Boolean, Float
 
 class Plan(Base):
     __tablename__ = "lms_admin_plan"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100))
+    name = Column(String)
     price = Column(Float)
     duration_days = Column(Integer)
 
@@ -74,3 +75,11 @@ class Payment(Base):
     plan_id = Column(Integer)
     amount = Column(Float)
     payment_date = Column(DateTime)
+
+
+class Notification(Base):
+    __tablename__ = "lms_admin_notification"
+
+    id = Column(Integer, primary_key=True, index=True)
+    message = Column(String)
+    created_at = Column(DateTime)
