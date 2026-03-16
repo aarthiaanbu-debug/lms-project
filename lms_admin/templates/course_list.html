@@ -1,76 +1,25 @@
-<!DOCTYPE html>
-<html>
+<h1>Courses</h1>
 
-<head>
-<title>Courses</title>
-
-<style>
-
-body{
-font-family:Arial;
-background:#f8f8f8;
-}
-
-.container{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:30px;
-padding:50px;
-}
-
-.card{
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 0 10px grey;
-}
-
-img{
-width:100%;
-height:150px;
-object-fit:cover;
-}
-
-button{
-background:#3498db;
-color:white;
-border:none;
-padding:10px;
-margin-top:10px;
-cursor:pointer;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<h1 style="text-align:center">Courses</h1>
-
-<div class="container">
+<ul>
 
 {% for course in courses %}
 
-<div class="card">
+<li>
 
-<img src="{{course.image.url}}">
+<h2>{{ course.title }}</h2>
 
-<h2>{{course.title}}</h2>
+<p>{{ course.description }}</p>
 
-<p>{{course.description}}</p>
+<a href="/course/{{ course.id }}/">View Course</a>
 
-<a href="/course/{{course.id}}">
+<br>
 
-<button>View Course</button>
+<a href="/enroll/{{ course.id }}/">Enroll</a>
 
-</a>
+</li>
 
-</div>
+<br>
 
 {% endfor %}
 
-</div>
-
-</body>
-</html>
+</ul>

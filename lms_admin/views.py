@@ -1,9 +1,6 @@
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
-from .models import Course, Enrollment
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from django.contrib import messages
+from .models import Course, Lesson, Enrollment, Progress, Payment
 
 
 def home(request):
@@ -11,74 +8,20 @@ def home(request):
     return render(request, "home.html", {"courses": courses})
 
 
-
-def student_login(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = authenticate(request, username=username, password=password)
-
-        if user:
-            login(request, user)
-            return redirect('/courses/')
-    
-    return render(request, "login.html")
-
-def enroll_course(request, course_id):
-
-    course = Course.objects.get(id=course_id)
-
-    Enrollment.objects.get_or_create(
-        user=request.user,
-        course=course
-    )
-
-    return redirect('/courses/')
-from django.shortcuts import render
-from .models import Course, Lesson
-
-
-def home(request):
-    return render(request,"home.html")
-
-
 def course_list(request):
 
     courses = Course.objects.all()
 
-    return render(request,"course_list.html",{"courses":courses})
-
-
-def course_detail(request,id):
-
-    course = Course.objects.get(id=id)
-
-    lessons = Lesson.objects.filter(course=course)
-
-    return render(request,"course_detail.html",{
-        "course":course,
-        "lessons":lessons
+    return render(request, "course_list.html", {
+        "courses": courses
     })
-from django.shortcuts import redirect
-from .models import Course, Enrollment
 
-def enroll(request, course_id):
 
-    course = Course.objects.get(id=course_id)
+def course_detail(request, id):
 
-    Enrollment.objects.get_or_create(
-        user=request.user,
-        course=course
-    )
+    course = get_object_or_404(Course, id=id)
 
-    return redirect("course_detail", id=course_id)
-    from .models import Course,Enrollment
-
-def course_detail(request,id):
-
-    course = Course.objects.get(id=id)
-
+    # premium course check
     if course.is_premium:
 
         enrolled = Enrollment.objects.filter(
@@ -87,33 +30,81 @@ def course_detail(request,id):
         ).exists()
 
         if not enrolled:
-            return render(request,"premium_lock.html",{"course":course})
+            return render(request, "premium_lock.html", {
+                "course": course
+            })
 
-    lessons = course.lesson_set.all()
+    lessons = Lesson.objects.filter(course=course)
 
-    return render(request,"course_detail.html",{
-        "course":course,
-        "lessons":lessons
+    return render(request, "course_detail.html", {
+        "course": course,
+        "lessons": lessons
     })
-def complete_lesson(request,lesson_id):
 
-    lesson = Lesson.objects.get(id=lesson_id)
 
-    course = lesson.course
+def enroll(request, course_id):
 
-    total = Lesson.objects.filter(course=course).count()
+    course = get_object_or_404(Course, id=course_id)
 
-    progress,created = Progress.objects.get_or_create(
+    Enrollment.objects.get_or_create(
         user=request.user,
         course=course
     )
 
-    progress.completed_lessons += 1
+    return redirect('courses')
 
-    progress.percent = int(
-        (progress.completed_lessons/total)*100
+
+def lesson_video(request, id):
+
+    lesson = get_object_or_404(Lesson, id=id)
+
+    return render(request, "lesson.html", {
+        "lesson": lesson
+    })
+
+
+from django.shortcuts import get_object_or_404, redirect
+from .models import Lesson, Progress
+from notifications.models import Notification
+
+def complete_lesson(request, lesson_id):
+
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+
+    Progress.objects.create(
+        user=request.user,
+        course=lesson.course
     )
 
-    progress.save()
+    # Notification create
+    Notification.objects.create(
+        message=f"{request.user.username} completed a lesson in {lesson.course.title}"
+    )
 
-    return redirect("lesson",lesson_id=lesson_id)
+    return redirect('dashboard')
+
+from notifications.models import Notification
+from django.contrib.auth.models import User
+from .models import Course, Lesson, Enrollment, Progress
+
+def dashboard(request):
+
+    total_users = User.objects.count()
+    total_courses = Course.objects.count()
+    total_lessons = Lesson.objects.count()
+    total_enrollments = Enrollment.objects.count()
+
+    completed_lessons = Progress.objects.count()
+
+    notifications = Notification.objects.all().order_by('-id')[:5]
+
+    context = {
+        "total_users": total_users,
+        "total_courses": total_courses,
+        "total_lessons": total_lessons,
+        "total_enrollments": total_enrollments,
+        "completed_lessons": completed_lessons,
+        "notifications": notifications
+    }
+
+    return render(request, "dashboard.html", context)

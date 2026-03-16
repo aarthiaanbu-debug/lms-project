@@ -1,69 +1,13 @@
-<!DOCTYPE html>
-<html>
+<h1>{{ lesson.title }}</h1>
 
-<head>
+<p>{{ lesson.content }}</p>
 
-<style>
-
-body{
-background:#111;
-color:white;
-font-family:Arial;
-}
-
-.video-container{
-width:900px;
-margin:auto;
-margin-top:40px;
-}
-
-video{
-width:100%;
-border-radius:10px;
-}
-
-.lesson-list{
-margin-top:20px;
-background:#1c1c1c;
-padding:20px;
-}
-
-.lesson{
-padding:10px;
-border-bottom:1px solid #333;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="video-container">
-
-<h2>{{lesson.title}}</h2>
-
-<video controls>
-
-<source src="{{lesson.video.url}}" type="video/mp4">
-
+<video width="600" controls>
+<source src="{{ lesson.video.url }}">
 </video>
 
-<div class="lesson-list">
+<br><br>
 
-{% for l in lessons %}
-
-<div class="lesson">
-
-<a href="/lesson/{{l.id}}">{{l.title}}</a>
-
-</div>
-
-{% endfor %}
-
-</div>
-
-</div>
-
-</body>
-</html>
+<a href="/complete/{{ lesson.id }}/">
+Mark Lesson Complete
+</a>
