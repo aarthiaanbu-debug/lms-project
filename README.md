@@ -106,3 +106,146 @@ Example endpoints tested:
 * GET /dashboard
 * POST /enroll
 * GET /notifications
+
+# LMS Project – Real-Time Chat Module
+
+## Overview
+
+This project is part of the LMS (Learning Management System) built using **Django Admin** and **FastAPI**.
+The system includes a **Real-Time Support Chat** feature where users can communicate with the admin instantly.
+
+The chat system uses **WebSockets** to maintain persistent connections between clients and the server.
+
+---
+
+## Features
+
+* Real-time messaging between users and admin
+* WebSocket based communication
+* Room-based chat system
+* Message broadcast to connected users
+* File upload and sharing
+* Chat interface with sender/receiver UI
+* Scrollable chat history
+
+---
+
+## Tech Stack
+
+**Backend**
+
+* FastAPI
+* WebSockets
+* Python
+
+**Frontend**
+
+* HTML
+* CSS
+* JavaScript
+
+**Database**
+
+* SQLite (for LMS core modules)
+
+**Other Tools**
+
+* Git & GitHub
+
+---
+
+## Project Structure
+
+```
+lms-project
+│
+├── analytics
+├── learning
+├── lms_admin
+├── notifications
+│
+├── lms_userpanel
+│   ├── main.py
+│   ├── chat.html
+│   └── uploads
+│
+├── database.py
+├── main.py
+├── manage.py
+└── README.md
+```
+
+---
+
+## How to Run the Project
+
+### 1. Clone the Repository
+
+```
+git clone https://github.com/aarthiaanbu-debug/lms-project.git
+cd lms-project
+```
+
+---
+
+### 2. Install Dependencies
+
+```
+pip install fastapi uvicorn
+```
+
+---
+
+### 3. Run FastAPI Server
+
+```
+python -m uvicorn main:app --reload --port 8001
+```
+
+---
+
+### 4. Open Chat UI
+
+Open the `chat.html` file in your browser.
+
+Example:
+
+```
+C:\Users\...\lms_userpanel\chat.html
+```
+
+---
+
+## WebSocket Endpoint
+
+```
+ws://127.0.0.1:8001/ws/chat/{room}
+```
+
+Example:
+
+```
+ws://127.0.0.1:8001/ws/chat/course1
+```
+
+---
+
+## File Upload API
+
+```
+POST /upload
+```
+
+Upload files and share them in the chat as a link.
+
+---
+
+## Example Chat Workflow
+
+1. Enter room name
+2. Click **Connect**
+3. Send message
+4. Other connected users receive messages instantly
+5. Upload files and share links in chat
+
+
