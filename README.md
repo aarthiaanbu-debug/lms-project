@@ -62,3 +62,47 @@ http://127.0.0.1:8001/docs
 | POST   | /enroll    | Enroll in a course       |
 | POST   | /progress  | Update learning progress |
 
+ 1. Notifications System
+
+A notification system was implemented to track important user activities.
+
+Examples:
+
+* User enrolled in a course
+* Lesson completed
+* New course updates
+
+Notifications are stored in the database and displayed in the **Admin Dashboard**.
+
+### 2. Admin Dashboard Analytics
+
+The dashboard displays basic platform analytics such as:
+
+* Total Users
+* Total Courses
+* Total Enrollments
+* Completed Lessons
+* Recent Notifications
+
+This helps admins quickly monitor platform activity.
+
+### 3. FastAPI Integration
+
+FastAPI was used to expose simple API endpoints for the LMS system.
+
+The API server can be started using:
+
+```
+[uvicorn main:app --reload](http://127.0.0.1:8001/docs)
+```
+
+### 4. API Testing with Postman
+
+All API endpoints were tested using **Postman**.
+
+Example endpoints tested:
+
+* GET /courses
+* GET /dashboard
+* POST /enroll
+* GET /notifications
