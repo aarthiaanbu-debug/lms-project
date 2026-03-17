@@ -35,6 +35,8 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from lms_admin import views
+from django.urls import path, include
+
 
 urlpatterns = [
 
@@ -53,6 +55,7 @@ urlpatterns = [
     path('complete/<int:lesson_id>/', views.complete_lesson, name='complete_lesson'),
 
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('analytics/', include('analytics.urls')),
 
 ]
 
