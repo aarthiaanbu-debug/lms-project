@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>LMS Chat</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#eef2f7;
+margin:0;
+}
+
+.container{
+width:520px;
+margin:auto;
+margin-top:40px;
+background:white;
+border-radius:10px;
+box-shadow:0 0 10px #ccc;
+padding:20px;
+}
+
+h2{
+text-align:center;
+color:#333;
+}
+
+.chatbox{
+height:320px;
+overflow-y:auto;
+border:1px solid #ddd;
+padding:10px;
+border-radius:6px;
+background:#fafafa;
+display:flex;
+flex-direction:column;
+}
+
+.message{
+padding:8px 12px;
+margin:6px 0;
+border-radius:8px;
+max-width:70%;
+word-wrap:break-word;
+}
+
+.sender{
+background:#0b93f6;
+color:white;
+margin-left:auto;
+}
+
+.receiver{
+background:#e4e6eb;
+color:black;
+margin-right:auto;
+}
+
+.input-area{
+display:flex;
+margin-top:10px;
+}
+
+input{
+padding:8px;
+margin:5px;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+button{
+padding:8px 14px;
+margin:5px;
+background:#007BFF;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+.file-area{
+margin-top:10px;
+display:flex;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>LMS Real-Time Chat</h2>
+
+Room:
+<input id="room" value="course1">
+<button onclick="connect()">Connect</button>
+
+<div class="chatbox" id="messages"></div>
+
+<div class="input-area">
+<input id="message" placeholder="Type message">
+<button onclick="send()">Send</button>
+</div>
+
+<div class="file-area">
+<input type="file" id="file">
+<button onclick="uploadFile()">Upload File</button>
+</div>
+
+</div>
+
+<script>
+
+let ws;
+
+function connect(){
+
+let room=document.getElementById("room").value
+
+ws=new WebSocket("ws://127.0.0.1:8001/ws/chat/"+room)
+
+ws.onmessage=function(event){
+
+let chat=document.getElementById("messages")
+
+let div=document.createElement("div")
+
+div.classList.add("message","receiver")
+
+div.textContent=event.data
+
+chat.appendChild(div)
+
+chat.scrollTop=chat.scrollHeight
+
+}
+
+}
+
+function send(){
+
+let msg=document.getElementById("message").value
+
+ws.send(msg)
+
+let chat=document.getElementById("messages")
+
+let div=document.createElement("div")
+
+div.classList.add("message","sender")
+
+div.textContent=msg
+
+chat.appendChild(div)
+
+document.getElementById("message").value=""
+
+chat.scrollTop=chat.scrollHeight
+
+}
+
+async function uploadFile(){
+
+let file=document.getElementById("file").files[0]
+
+let formData=new FormData()
+
+formData.append("file",file)
+
+let res=await fetch("http://127.0.0.1:8001/upload",{
+method:"POST",
+body:formData
+})
+
+let data=await res.json()
+
+let chat=document.getElementById("messages")
+
+let div=document.createElement("div")
+
+div.classList.add("message","sender")
+
+div.textContent="File shared: "+data.file_url
+
+chat.appendChild(div)
+
+ws.send("File shared: "+data.file_url)
+
+chat.scrollTop=chat.scrollHeight
+
+}
+
+</script>
+
+</body>
+</html>
