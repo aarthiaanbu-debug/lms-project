@@ -73,3 +73,21 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.amount}"
+    from django.db import models
+
+class SocialAccount(models.Model):
+    provider = models.CharField(max_length=50)
+    email = models.EmailField()
+    uid = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.email} ({self.provider})"
+
+
+class OTPLog(models.Model):
+    email = models.EmailField()
+    otp = models.CharField(max_length=10)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email

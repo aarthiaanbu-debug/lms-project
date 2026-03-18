@@ -20,10 +20,3 @@ def dashboard(request):
     }
 
     return render(request, "dashboard.html", context)
-import requests
-from django.shortcuts import render
-
-def analytics_view(request):
-    response = requests.get("http://127.0.0.1:8001/analytics")
-    data = response.json()
-    return render(request, "analytics.html", {"data": data})
