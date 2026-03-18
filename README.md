@@ -248,4 +248,74 @@ Upload files and share them in the chat as a link.
 4. Other connected users receive messages instantly
 5. Upload files and share links in chat
 
+Student enrollment system
+
+📝 Assignment Module
+
+Upload assignments (file support)
+
+Submission tracking
+
+Grade assignments
+
+⏰ Deadline Validation
+
+Assignment deadlines
+
+Late submission handling
+
+🔔 Notification System
+
+Auto notification on grading
+
+Real-time alerts
+
+💬 Real-Time Chat
+
+Student ↔ Admin messaging
+
+WebSocket-based communication
+
+🤖 AI Chat Assistant
+
+Integrated AI support system
+
+Instant query resolution
+
+📊 Analytics Dashboard
+
+Total assignments
+
+Total submissions
+
+Attendance tracking
+
+Present / Absent stats
+
+3️⃣ Setup FastAPI
+uvicorn main:app --reload --port 8001
+
+👉 Runs on:
+
+http://127.0.0.1:8001/
+🔗 Important URLs
+Feature	URL
+Dashboard	/dashboard/
+Courses	/courses/
+Analytics	/analytics/
+FastAPI Docs	http://127.0.0.1:8001/docs
+📊 API Example
+GET /analytics
+
+{
+  "total_assignments": 1,
+  "total_submissions": 1,
+  "total_attendance_records": 20,
+  "attendance": {
+    "present": 15,
+    "absent": 5
+  }
+}
+
+
 
