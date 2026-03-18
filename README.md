@@ -316,6 +316,183 @@ GET /analytics
     "absent": 5
   }
 }
+# 🚀 LMS Authentication System
 
+## 📌 Overview
+This project implements a hybrid authentication system using **FastAPI + Django**.
 
+It supports:
+- Social login (Google, Facebook, GitHub)
+- OTP-based login/signup
+- JWT authentication
+- Django Admin monitoring
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1️⃣ Clone Project
+
+git clone <your_repo_url>
+cd learning
+
+---
+
+### 2️⃣ Install Dependencies
+
+pip install -r requirements.txt
+
+---
+
+### 3️⃣ Run Django Server
+
+cd django_app
+
+python manage.py makemigrations  
+python manage.py migrate  
+python manage.py createsuperuser  
+python manage.py runserver  
+
+👉 Django runs on: http://127.0.0.1:8000  
+
+---
+
+### 4️⃣ Run FastAPI Server
+
+cd fastapi_app
+
+python -m uvicorn main:app --reload --port 8001  
+
+👉 FastAPI runs on: http://127.0.0.1:8001  
+
+👉 Swagger Docs: http://127.0.0.1:8001/docs  
+
+---
+
+## 🔐 Authentication Features
+
+### ✅ OTP Login / Signup
+
+#### Send OTP
+POST /auth/otp/send  
+
+Body:
+{
+  "email": "aarthiaanbu@gmail.com"
+}
+
+#### Verify OTP
+POST /auth/otp/verify  
+
+Body:
+{
+  "email": "aarthiaanbu@gmail.com",
+  "otp": "5079"
+}
+
+✔ OTP stored in Django DB  
+✔ OTP verified and marked  
+✔ JWT token returned  
+
+---
+
+### 🌐 Social Login
+
+#### Google
+GET http://127.0.0.1:8001/auth/google 
+
+#### Facebook
+GET http://127.0.0.1:8001/auth/facebook 
+
+#### GitHub
+GET http://127.0.0.1:8001/auth/github
+
+✔ OAuth2 flow implemented  
+✔ User auto-created in Django  
+✔ SocialAccount saved  
+✔ JWT token generated  
+
+---
+
+## 🔑 OAuth Setup Instructions
+
+### 🔵 Google
+
+1. Go to Google Cloud Console  
+2. Create OAuth Client ID  
+3. Add Redirect URI:
+
+http://127.0.0.1:8001/auth/google/callback  
+
+4. Add credentials in code:
+
+CLIENT_ID = "your_google_client_id"  
+CLIENT_SECRET = "your_google_secret"  
+
+---
+
+### 📘 Facebook
+
+1. Go to Meta Developers  
+2. Create App → Facebook Login  
+3. Add Redirect URI:
+
+http://127.0.0.1:8001/auth/facebook/callback  
+
+---
+
+### 🐙 GitHub
+
+1. Go to GitHub Developer Settings  
+2. Create OAuth App  
+3. Add Redirect URI:
+
+http://127.0.0.1:8001/auth/github/callback  
+
+---
+
+## 🔐 JWT Authentication
+
+- Token generated after successful login
+- Used for protected routes
+- Expiry enabled
+
+---
+
+## 🛠 Django Admin Panel
+
+👉 URL: http://127.0.0.1:8000/admin/
+
+Admin can monitor:
+
+- Users  
+- Social Accounts  
+- OTP Logs  
+
+---
+
+## 🎯 Expected Outcome
+
+✔ Users can log in/signup using Google, Facebook, GitHub  
+✔ OTP login/signup works correctly  
+✔ JWT authentication implemented  
+✔ Admin panel shows authentication logs  
+
+---
+
+## 🧪 API Testing
+
+Use Postman or Swagger:
+
+http://127.0.0.1:8001/docs  
+
+---
+
+## 📌 Tech Stack
+
+- FastAPI  
+- Django  
+- SQLite  
+- JWT  
+- OAuth2  
 
