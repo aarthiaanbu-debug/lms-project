@@ -494,5 +494,124 @@ http://127.0.0.1:8001/docs
 - Django  
 - SQLite  
 - JWT  
-- OAuth2  
+- OAuth2
+  # 💳 Stripe Payment Integration (Django)
+
+This project demonstrates Stripe payment integration using Django with Checkout and Webhook support.
+
+---
+
+## 🚀 Features
+
+* Stripe Checkout Payment
+* Payment Success & Cancel Pages
+* Webhook Integration for Payment Verification
+* Secure API Key Handling using `.env`
+
+---
+
+## 🛠️ Tech Stack
+
+* **Backend:** Django
+* **Payments:** Stripe API
+* **Database:** SQLite
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/aarthiaanbu-debug/lms-project.git
+cd lms-project
+```
+
+---
+
+### 2️⃣ Create Virtual Environment
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+---
+
+### 3️⃣ Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 4️⃣ Setup Environment Variables
+
+Create a `.env` file:
+
+```env
+STRIPE_SECRET_KEY=your_secret_key
+STRIPE_PUBLISHABLE_KEY=your_publishable_key
+```
+
+---
+
+### 5️⃣ Apply Migrations
+
+```bash
+python manage.py migrate
+```
+
+---
+
+### 6️⃣ Run Server
+
+```bash
+python manage.py runserver
+```
+
+---
+
+## 💳 Payment Flow
+
+1. User clicks **Pay Now**
+2. Redirects to Stripe Checkout
+3. Completes payment
+4. Redirects to:
+
+   * `/success/` → Payment Success
+   * `/cancel/` → Payment Cancel
+
+---
+
+## 🔔 Webhook Setup
+
+Install Stripe CLI and run:
+
+```bash
+stripe listen --forward-to http://127.0.0.1:8000/lms/webhook/
+```
+
+Copy the webhook secret and add to your environment if needed.
+
+---
+
+## 📂 Important Files
+
+* `views.py` → Payment logic
+* `urls.py` → Routes (payment, success, cancel)
+* `templates/payment.html` → Payment UI
+* `.env` → Secret keys (not committed)
+
+---
+
+## 🔐 Security Notes
+
+* Never expose `sk_test` in code
+* Always use `.env`
+* Regenerate keys if leaked
+
+---
+
 
