@@ -113,7 +113,8 @@ from django.views.decorators.csrf import csrf_exempt
 import stripe
 from .models import Payment
 
-stripe.api_key = "sk_test_XXX"
+import os
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 WEBHOOK_SECRET = "whsec_XXX"
 
 @csrf_exempt
