@@ -1,0 +1,20 @@
+<h1>Admin Dashboard</h1>
+
+<h3>Statistics</h3>
+
+<p>Total Courses: {{ total_courses }}</p>
+<p>Total Lessons: {{ total_lessons }}</p>
+<p>Total Enrollments: {{ total_enrollments }}</p>
+<p>Completed Lessons: {{ completed_lessons }}</p>
+
+<hr>
+
+<h2>Notifications</h2>
+
+<ul>
+{% for n in notifications %}
+<li>{{ n.message }}</li>
+{% empty %}
+<li>No notifications yet</li>
+{% endfor %}
+</ul>

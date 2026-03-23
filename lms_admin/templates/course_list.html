@@ -1,0 +1,25 @@
+<h1>Courses</h1>
+
+<ul>
+
+{% for course in courses %}
+
+<li>
+
+<h2>{{ course.title }}</h2>
+
+<p>{{ course.description }}</p>
+
+<a href="/course/{{ course.id }}/">View Course</a>
+
+<br>
+
+<a href="/enroll/{{ course.id }}/">Enroll</a>
+
+</li>
+
+<br>
+
+{% endfor %}
+
+</ul>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment</title>
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #5a67d8;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>💳 Course Payment</h2>
+    <button id="checkout-button">Pay ₹500</button>
+</div>
+
+<script>
+const stripe = Stripe("pk_test_51TCvrwIBSgL9ojRJCVjbgYf7OBvu510ANCrzjXYQpYL48EbB3pJyvwwB6KTZ9jPugZKdsNJttO9U5RtDLXsN4F2u00jmuHzZXb");  // 👈 correct key paste pannunga
+
+document.getElementById("checkout-button").addEventListener("click", function () {
+    fetch("/lms/create-checkout-session/")
+    .then(res => res.json())
+    .then(data => {
+        console.log(data); // debug
+        return stripe.redirectToCheckout({ sessionId: data.id });
+    })
+    .then(result => {
+        if (result.error) {
+            alert(result.error.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
+});
+</script>
+
+</body>
+</html>
